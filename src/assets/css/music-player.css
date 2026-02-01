@@ -1,0 +1,524 @@
+/* ======================================================
+   MUSIC PLAYER STYLES - MODERN GLASSMORPHISM
+   ====================================================== */
+
+:root {
+  --player-primary: #FF9000;
+  --player-bg: rgba(30, 30, 30, 0.65);
+  --player-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-blur: blur(16px);
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+}
+
+.music-player {
+  position: fixed;
+  bottom: 20px;
+  /* Floating slightly above bottom */
+  left: 20px;
+  width: 400px;
+  /* Increased from 360px to prevent overflow */
+  background: var(--player-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--player-border);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow);
+  z-index: 999;
+  font-family: "Space Mono", Arial, serif;
+  /* transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); Removed - using Framer Motion */
+  color: var(--text-primary);
+  overflow: visible;
+  /* Needed for toggle button */
+  overscroll-behavior: contain;
+  /* Prevent scroll chaining to body */
+}
+
+/* ... existing code ... */
+
+/* Collapsed State - Handled by Framer Motion now, but keeping for reference if needed? 
+   Actually, removing conflicting styles is safer. */
+.music-player.collapsed {
+  /* transform: translateY(100%); Handled by motion value */
+  bottom: 0px;
+}
+
+/* ... */
+.music-player.collapsed .player-container {
+  /* Opacity handled by motion */
+  pointer-events: none;
+}
+
+.player-container {
+  padding: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Song Info */
+.player-info {
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.song-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.song-artist {
+  font-size: 13px;
+  color: var(--player-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Progress Bar */
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.time {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: "Space Mono", monospace;
+  min-width: 35px;
+}
+
+.progress-container .progress-bar {
+  flex: 1;
+  position: relative;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.progress-container .progress {
+  height: 100%;
+  background: var(--player-primary);
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(255, 144, 0, 0.4);
+  position: relative;
+}
+
+/* Integrated scrub head in progress bar */
+.progress-container .progress::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.progress-container:hover .progress::after {
+  opacity: 1;
+}
+
+#progress-range {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 22px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  z-index: 2;
+}
+
+#progress-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Controls */
+.player-controls {
+  display: flex;
+  align-items: center;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: nowrap;
+  /* Prevent wrapping */
+}
+
+.control-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  /* Subtle glass fill */
+  backdrop-filter: blur(5px);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+  /* Keep perfect circle */
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn.play-btn {
+  width: 56px;
+  height: 56px;
+  background: var(--player-primary);
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 144, 0, 0.3);
+}
+
+.control-btn.play-btn:hover {
+  background: #ffaa33;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 144, 0, 0.5);
+}
+
+/* Volume Control */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.volume-control i {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+#volume-range {
+  width: 70px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+}
+
+#volume-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#volume-range::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Player Toggle Button (Floating Circle) */
+.player-toggle {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--player-primary);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(255, 144, 0, 0.4);
+}
+
+.player-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 144, 0, 0.6);
+  background: #ffaa33;
+}
+
+/* Close Button (Redesigned) */
+.player-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1002;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); Removed */
+  transition: all 0.2s ease;
+}
+
+.player-close-btn:hover {
+  background: rgba(255, 90, 90, 0.8);
+  transform: translateY(-2px);
+}
+
+.player-close-btn i {
+  font-size: 14px;
+}
+
+/* Collapsed State */
+.music-player.collapsed {
+  transform: translateY(100%);
+  bottom: 0;
+}
+
+.music-player.collapsed .player-toggle {
+  top: -60px;
+  /* Keep it floating well above */
+}
+
+.music-player.collapsed .player-toggle i {
+  /* No rotation needed */
+  font-size: 22px;
+}
+
+.music-player.collapsed .player-container,
+.music-player.collapsed .playlist-container {
+  /* Hide contents smoothly */
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.2s;
+}
+
+/* Animations */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+    opacity: 0.5;
+  }
+
+  80%,
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+.music-player.collapsed .player-toggle.first-time-animation::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  margin-left: -50%;
+  margin-top: -50%;
+  border-radius: 50%;
+  border: 2px solid var(--player-primary);
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* Playlist */
+.playlist-container {
+  /* max-height: 0; Handled by motion */
+  overflow: hidden;
+  /* opacity: 0; Handled by motion */
+  /* transition: ... Handled by motion */
+  background: rgba(0, 0, 0, 0.2);
+  margin: 0 10px;
+  /* Base margin */
+  border-radius: 16px;
+  /* visibility: hidden; Handled by dom removal/opacity */
+}
+
+/* .playlist-container.open {
+  max-height: 250px;
+  opacity: 1;
+  visibility: visible;
+  padding: 10px;
+  margin: 10px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+} Handled by motion props */
+
+.playlist-container {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.playlist-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin: 5px 0 10px 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 5px;
+}
+
+.playlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.playlist-item {
+  padding: 10px 14px;
+  /* Restored original padding */
+  margin: 4px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.playlist-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding-left: 18px;
+  /* Original slide amount */
+  /* transform: scale(1.02); Removed scale */
+}
+
+.playlist-item.active {
+  background: rgba(255, 144, 0, 0.2);
+  color: var(--player-primary);
+  font-weight: 600;
+}
+
+.playlist-item.active::before {
+  content: '♪';
+  margin-right: 8px;
+}
+
+/* Scrollbar Styling */
+.playlist-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.playlist-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.playlist-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.playlist-container::-webkit-scrollbar-thumb:hover {
+  background: var(--player-primary);
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .music-player {
+    width: calc(100% - 32px);
+    left: 16px;
+    bottom: 16px;
+    border-radius: 20px;
+  }
+
+  .music-player.collapsed {
+    bottom: 0;
+    transform: translateY(100%);
+  }
+
+  .music-player.collapsed .player-toggle {
+    top: -45px;
+    /* Ensure visible on mobile */
+  }
+
+  .player-controls {
+    gap: 12px;
+  }
+
+  .control-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .control-btn.play-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .volume-control {
+    display: none;
+    /* Hide volume on mobile to save space */
+  }
+
+  .playlist-container.open {
+    max-height: 180px;
+  }
+}

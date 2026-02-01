@@ -1,0 +1,34 @@
+import React from 'react'
+import Loader from './components/Features/Loader'
+import MusicPlayer from './components/Features/MusicPlayer'
+import Header from './components/Layout/Header'
+import Footer from './components/Layout/Footer'
+import About from './components/Sections/About'
+import Resume from './components/Sections/Resume'
+import Skills from './components/Sections/Skills'
+import Projects from './components/Sections/Projects'
+import Contact from './components/Sections/Contact'
+
+import GoToTop from './components/Features/GoToTop'
+
+function App() {
+  return (
+    <>
+      <Loader />
+      <MusicPlayer />
+      <GoToTop />
+
+      <div id="page">
+        <Header />
+        <About />
+        <Resume />
+        <Skills />
+        <Projects />
+        <Contact />
+        <Footer />
+      </div>
+    </>
+  )
+}
+
+export default App
