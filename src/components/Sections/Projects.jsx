@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const ProjectCard = ({ title, date, desc, image, link, label = "Visit" }) => (
-    <div className="col-md-4">
+    <div className="col-md-4 col-sm-6">
         <motion.div
             className="fh5co-blog"
             initial={{ opacity: 0, y: 30 }}

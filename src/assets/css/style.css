@@ -1595,3 +1595,66 @@ input[type="text"] {
 .js .animate-box {
   opacity: 0;
 }
+/* 
+   --------------------------------------------------
+   Responsive Refinements (iPad, Mobile, Tablets)
+   --------------------------------------------------
+*/
+
+@media screen and (max-width: 992px) {
+    /* Adjust container padding for tablets */
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    /* Ensure timeline panel text doesn't overflow */
+    .timeline > li > .timeline-panel {
+        width: calc(100% - 100px); /* Give more space to text */
+    }
+    
+    /* Adjust padding for sections to be less aggressive */
+    #fh5co-about, #fh5co-resume, #fh5co-skills, #fh5co-started, #fh5co-work, #fh5co-blog, #fh5co-pricing, #fh5co-contact {
+        padding: 5em 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Mobile specific adjustments */
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Reduce section padding further for mobile */
+    #fh5co-about, #fh5co-resume, #fh5co-skills, #fh5co-started, #fh5co-work, #fh5co-blog, #fh5co-pricing, #fh5co-contact {
+        padding: 3em 0;
+    }
+
+    /* Fix timeline widths for mobile */
+    .timeline > li > .timeline-panel {
+        width: 100% !important;
+        float: none !important;
+    }
+    
+    ul.timeline > li > .timeline-badge {
+        left: 0 !important;
+        margin-left: 0 !important;
+        top: -10px !important; 
+        position: relative !important;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+    
+    ul.timeline:before {
+        display: none; 
+    }
+
+    /* Adjust Headers */
+    h1, h2, h3, h4, h5, h6 {
+        word-wrap: break-word; /* Prevent long words breaking layout */
+    }
+    
+    #fh5co-header .display-tc h1, .fh5co-cover .display-tc h1 {
+        font-size: 30px; /* Ensure main title fits */
+    }
+}
