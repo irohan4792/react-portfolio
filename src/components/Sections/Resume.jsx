@@ -79,7 +79,13 @@ const Resume = () => {
                                 inverted={true}
                                 icon="icon-suitcase"
                                 title="Software Engineer at S&P Global"
-                                company="June 2024 - Present"
+                                company="June 2024 - 2025"
+                            />
+                            <ResumeItem
+                                inverted={false}
+                                icon="icon-suitcase"
+                                title="Engineer 1 at S&P Global"
+                                company="Jan 2025 - Present"
                             />
                         </ul>
                     </div>
