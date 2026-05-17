@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:client && npm run build:server && npm run prerender",
+    "build:client": "vite build --outDir dist/static",
+    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
+    "prerender": "node prerender.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview --outDir dist/static"
   },
   "dependencies": {
     "framer-motion": "^12.29.2",
