@@ -50,18 +50,18 @@ const Projects = () => {
                             link="https://moovymaster.netlify.app/"
                         />
                         <ProjectCard
-                            title="ChatMaster"
-                            date="February, 2023"
-                            desc="It's a chatting website based on react and firebase"
-                            image="/images/chatmaster.jpg"
-                            link="https://chat-master.netlify.app"
-                        />
-                        <ProjectCard
                             title="Nike Store"
                             date="September, 2023"
                             desc="It's a react based shopping site for nike which includes features such as payment, add to cart, wishlist etc."
                             image="/images/nikestore.png"
                             link="https://nike-store-online.netlify.app/"
+                        />
+                        <ProjectCard
+                            title="Gen AI SaaS App"
+                            date="April, 2026"
+                            desc="A Generative AI platform that allows users to instantly generate essays, write blogs, and create high-quality pictures."
+                            image="/images/ai-saas.png"
+                            link="https://quickaisaas.vercel.app/"
                         />
                     </div>
                 </div>
