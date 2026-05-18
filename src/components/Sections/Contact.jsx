@@ -1,7 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 
 const Contact = () => {
+    const [formData, setFormData] = useState({
+        firstname: '',
+        lastname: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Basic validation
+        if (!formData.firstname || !formData.lastname || !formData.email || !formData.message) {
+            toast.error("Please fill in all required fields!");
+            return;
+        }
+
+        setIsSubmitting(true);
+        const loadingToast = toast.loading("Sending message...");
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({
+                    access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+                    name: `${formData.firstname} ${formData.lastname}`,
+                    email: formData.email,
+                    subject: formData.subject || "New Portfolio Contact",
+                    message: formData.message,
+                }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                toast.success("Message sent successfully! I'll get back to you soon.", { id: loadingToast });
+                setFormData({ firstname: '', lastname: '', email: '', subject: '', message: '' }); // clear form
+            } else {
+                toast.error("Something went wrong. Please try again.", { id: loadingToast });
+            }
+        } catch (error) {
+            toast.error("Network error. Please try again later.", { id: loadingToast });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <>
             <div id="fh5co-started" className="fh5co-bg-dark">
@@ -16,7 +72,7 @@ const Contact = () => {
                             >
                                 <h2> Get in touch!!</h2>
                                 <p>Want to know about any of my skillset? Let's have a quick conversation then!!.</p>
-                                <p><a href="mailto:rohansharma4792@gmail.com" className="btn btn-default btn-lg">Contact me</a></p>
+                                <p><a href="#fh5co-consult" className="btn btn-default btn-lg">Contact me</a></p>
                                 <p><a href="resume.pdf" className="btn btn-default btn-lg" target="_blank">Technical Resume</a></p>
                                 <p><a href="resume ux.pdf" target="_blank" className="btn btn-default btn-lg">Non-Technical Resume</a></p>
                             </motion.div>
@@ -37,37 +93,39 @@ const Contact = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <h2>Contact</h2>
-                        <form action="#">
+                        <form onSubmit={handleSubmit}>
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <input type="text" id="fname" className="form-control" placeholder="Your firstname" />
+                                    <input type="text" name="firstname" className="form-control" placeholder="Your firstname" value={formData.firstname} onChange={handleChange} required />
                                 </div>
                             </div>
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <input type="text" id="lname" className="form-control" placeholder="Your lastname" />
-                                </div>
-                            </div>
-
-                            <div className="row form-group">
-                                <div className="col-md-12">
-                                    <input type="text" id="email" className="form-control" placeholder="Your email address" />
+                                    <input type="text" name="lastname" className="form-control" placeholder="Your lastname" value={formData.lastname} onChange={handleChange} required />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <input type="text" id="subject" className="form-control" placeholder="Your subject of this message" />
+                                    <input type="email" name="email" className="form-control" placeholder="Your email address" value={formData.email} onChange={handleChange} required />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <textarea name="message" id="message" cols="30" rows="10" className="form-control" placeholder="Begin typing here"></textarea>
+                                    <input type="text" name="subject" className="form-control" placeholder="Your subject of this message" value={formData.subject} onChange={handleChange} />
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <textarea name="message" cols="30" rows="10" className="form-control" placeholder="Begin typing here" value={formData.message} onChange={handleChange} required></textarea>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <a className="btn btn-primary" href="mailto:rohansharma4792@gmail.com">Send message</a>
+                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Sending...' : 'Send message'}
+                                </button>
                             </div>
                         </form>
                     </motion.div>

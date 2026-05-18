@@ -1,4 +1,5 @@
 import React from 'react'
+import { Toaster } from 'react-hot-toast'
 import Loader from './components/Features/Loader'
 import MusicPlayer from './components/Features/MusicPlayer'
 import Header from './components/Layout/Header'
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <>
+      <Toaster position="bottom-center" toastOptions={{ style: { background: '#333', color: '#fff' } }} />
       <Loader />
       <MusicPlayer />
       <GoToTop />
