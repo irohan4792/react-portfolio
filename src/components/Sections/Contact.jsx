@@ -16,6 +16,38 @@ const Contact = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const playSuccessSound = () => {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            
+            const playTone = (freq, time, dur, vol) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                
+                gain.gain.setValueAtTime(0, ctx.currentTime + time);
+                gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + time + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + time + dur);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start(ctx.currentTime + time);
+                osc.stop(ctx.currentTime + time + dur);
+            };
+            
+            playTone(523.25, 0, 0.5, 0.1);
+            playTone(659.25, 0.1, 0.5, 0.1);
+            playTone(783.99, 0.2, 0.6, 0.1);
+            playTone(1046.50, 0.3, 0.8, 0.1);
+        } catch (e) {
+            console.log("Audio playback failed", e);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -47,6 +79,7 @@ const Contact = () => {
             const result = await response.json();
             if (result.success) {
                 toast.success("Message sent successfully! I'll get back to you soon.", { id: loadingToast });
+                playSuccessSound();
                 setFormData({ firstname: '', lastname: '', email: '', subject: '', message: '' }); // clear form
             } else {
                 toast.error("Something went wrong. Please try again.", { id: loadingToast });
