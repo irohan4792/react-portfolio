@@ -16,7 +16,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header id="fh5co-header" className="fh5co-cover js-fullheight" role="banner" style={{ backgroundImage: 'url(/images/cover_bg_4.jpg)', height: '100vh', position: 'relative', overflow: 'hidden' }} data-stellar-background-ratio="0.5">
+        <header id="fh5co-header" className="fh5co-cover js-fullheight" role="banner" style={{ backgroundImage: 'url(/images/cover_bg_4.jpg)', backgroundPosition: 'center', height: '100vh', position: 'relative', overflow: 'hidden' }} data-stellar-background-ratio="0.5">
             {/* Floating Dots Background */}
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }}>
                 {dots.map((dot, i) => (
